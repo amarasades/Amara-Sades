@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Amara Sades</title>
+<meta name="description" content="Amara Sades — 3D, apparel, accessories and design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0b0d;
+    --fg: #ecebe8;
+    --muted: #8a8a90;
+    --line: #232328;
+    --accent: #d9c3a5;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: fixed; inset: 0 0 auto 0; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px clamp(16px, 4vw, 48px);
+    mix-blend-mode: difference;
+    font-size: 14px; letter-spacing: .08em; text-transform: uppercase;
+  }
+  nav .links { display: flex; gap: 24px; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative; height: 100svh; min-height: 520px;
+    display: grid; place-items: center; overflow: hidden;
+  }
+  #bracelet { position: absolute; inset: 0; width: 100%; height: 100%; cursor: grab; }
+  #bracelet:active { cursor: grabbing; }
+  .hero h1 {
+    position: absolute; bottom: clamp(56px, 10vh, 110px); left: 0; right: 0;
+    text-align: center; pointer-events: none;
+    font-size: clamp(44px, 11vw, 160px); font-weight: 700;
+    letter-spacing: -.04em; line-height: .9;
+  }
+  .hero .tag {
+    position: absolute; bottom: 28px; left: 0; right: 0; text-align: center;
+    color: var(--muted); font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+    pointer-events: none;
+  }
+  .hero .scroll {
+    position: absolute; bottom: 28px; right: clamp(16px, 4vw, 48px);
+    font-size: 13px; color: var(--muted); animation: bob 2s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { transform: translateY(6px); } }
+
+  /* ---------- work ---------- */
+  .work { padding: 96px clamp(16px, 4vw, 48px) 64px; }
+  .work-head {
+    display: flex; flex-wrap: wrap; gap: 16px 32px;
+    justify-content: space-between; align-items: end;
+    border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 32px;
+  }
+  .work-head h2 { font-size: clamp(32px, 5vw, 56px); font-weight: 500; letter-spacing: -.03em; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .filters button {
+    font: inherit; font-size: 13px; letter-spacing: .06em; text-transform: uppercase;
+    background: none; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer;
+    transition: color .2s, border-color .2s, background .2s;
+  }
+  .filters button:hover { color: var(--fg); border-color: var(--muted); }
+  .filters button.on { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+  .grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+  .card { display: block; }
+  .card.hide { display: none; }
+  .thumb {
+    aspect-ratio: 4 / 5; border-radius: 6px; overflow: hidden; position: relative;
+    background: var(--ph, #1a1a1f);
+  }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+  .thumb .ph {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.35);
+    transition: transform .5s;
+  }
+  .card:hover .thumb img, .card:hover .thumb .ph { transform: scale(1.04); }
+  .meta { display: flex; justify-content: space-between; gap: 12px; padding: 12px 2px 8px; font-size: 15px; }
+  .meta span:last-child { color: var(--muted); font-size: 13px; text-transform: uppercase; letter-spacing: .08em; }
+
+  /* ---------- footer ---------- */
+  footer {
+    padding: 64px clamp(16px, 4vw, 48px) 40px; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: end;
+  }
+  footer .big { font-size: clamp(28px, 5vw, 56px); font-weight: 500; letter-spacing: -.03em; }
+  footer .big a { border-bottom: 1px solid var(--muted); }
+  footer small { color: var(--muted); }
+
+  @media (max-width: 560px) { nav .links { gap: 16px; } .hero .scroll { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .hero .scroll { animation: none; } html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#">Amara Sades</a>
+  <div class="links"><a href="#work">Work</a><a href="#contact">Contact</a></div>
+</nav>
+
+<!-- HERO: placeholder bracelet. Replace with the real Blender model (.glb) later. -->
+<header class="hero">
+  <canvas id="bracelet" aria-label="Rotating charm bracelet"></canvas>
+  <h1>AMARA SADES</h1>
+  <p class="tag">3D · Apparel · Accessories · Design</p>
+  <a class="scroll" href="#work">Scroll ↓</a>
+</header>
+
+<main class="work" id="work">
+  <div class="work-head">
+    <h2>Work</h2>
+    <div class="filters" role="group" aria-label="Filter work">
+      <button class="on" data-f="all">All</button>
+      <button data-f="3d">3D</button>
+      <button data-f="apparel">Apparel</button>
+      <button data-f="accessories">Accessories</button>
+      <button data-f="design">Design</button>
+    </div>
+  </div>
+
+  <!--
+    To add real work: swap the <div class="ph"> for <img src="work/your-image.jpg" alt="...">,
+    change the title, and set data-cat to one of: 3d, apparel, accessories, design.
+  -->
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer id="contact">
+  <p class="big">Say hi — <a href="mailto:hello@amarasades.com">hello@amarasades.com</a></p>
+  <small>© <span id="yr"></span> Amara Sades</small>
+</footer>
+
+<script>
+  // ---------- placeholder work items (edit this list) ----------
+  const WORK = [
+    { title: "Project One",    cat: "3d" },
+    { title: "Project Two",    cat: "apparel" },
+    { title: "Project Three",  cat: "accessories" },
+    { title: "Project Four",   cat: "design" },
+    { title: "Project Five",   cat: "3d" },
+    { title: "Project Six",    cat: "apparel" },
+    { title: "Project Seven",  cat: "accessories" },
+    { title: "Project Eight",  cat: "design" },
+    { title: "Project Nine",   cat: "3d" },
+  ];
+  const TINT = { "3d": "#2a2238", apparel: "#382622", accessories: "#2b3022", design: "#1f2b35" };
+  const grid = document.getElementById("grid");
+  grid.innerHTML = WORK.map(w => `
+    <a class="card" href="#" data-cat="${w.cat}">
+      <div class="thumb" style="--ph: linear-gradient(160deg, ${TINT[w.cat]}, #121215)">
+        ${w.img ? `<img src="${w.img}" alt="${w.title}" loading="lazy">` : `<div class="ph">Image coming soon</div>`}
+      </div>
+      <div class="meta"><span>${w.title}</span><span>${w.cat === "3d" ? "3D" : w.cat}</span></div>
+    </a>`).join("");
+
+  document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach(x => x.classList.toggle("on", x === b));
+    const f = b.dataset.f;
+    grid.querySelectorAll(".card").forEach(c => c.classList.toggle("hide", f !== "all" && c.dataset.cat !== f));
+  }));
+  document.getElementById("yr").textContent = new Date().getFullYear();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ---------- placeholder charm bracelet (procedural, no model file) ----------
+(() => {
+  if (!window.THREE) return;
+  const canvas = document.getElementById("bracelet");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.set(0, 1.2, 9);
+  camera.lookAt(0, 0.3, 0);
+
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x222233, 0.9));
+  const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(4, 6, 5); scene.add(key);
+  const rim = new THREE.PointLight(0xd9c3a5, 2.2, 30); rim.position.set(-5, 2, -4); scene.add(rim);
+  const fill = new THREE.PointLight(0x8899ff, 1.0, 30); fill.position.set(3, -3, 4); scene.add(fill);
+
+  const silver = new THREE.MeshStandardMaterial({ color: 0xd8d8dc, metalness: 0.85, roughness: 0.22 });
+  const gold   = new THREE.MeshStandardMaterial({ color: 0xd9b77a, metalness: 0.85, roughness: 0.25 });
+  const enamel = new THREE.MeshStandardMaterial({ color: 0xc23b5a, metalness: 0.2, roughness: 0.35 });
+  const glass  = new THREE.MeshPhysicalMaterial({ color: 0x9fd3ff, metalness: 0, roughness: 0.05, transmission: 0.6, transparent: true, opacity: 0.85 });
+
+  const bracelet = new THREE.Group();
+  bracelet.rotation.x = 0.45;
+  scene.add(bracelet);
+
+  // chain: alternating oval links around a ring
+  const R = 2.2, LINKS = 34;
+  const linkGeo = new THREE.TorusGeometry(0.2, 0.05, 12, 28);
+  for (let i = 0; i < LINKS; i++) {
+    const a = (i / LINKS) * Math.PI * 2;
+    const m = new THREE.Mesh(linkGeo, silver);
+    m.position.set(Math.cos(a) * R, 0, Math.sin(a) * R);
+    m.scale.set(1.35, 1, 1);
+    m.rotation.y = -a + Math.PI / 2;
+    if (i % 2) m.rotation.x = Math.PI / 2;
+    bracelet.add(m);
+  }
+
+  // heart shape helper
+  function heartGeo() {
+    const s = new THREE.Shape();
+    s.moveTo(0, -0.28);
+    s.bezierCurveTo(-0.05, -0.2, -0.32, -0.05, -0.32, 0.1);
+    s.bezierCurveTo(-0.32, 0.28, -0.08, 0.32, 0, 0.16);
+    s.bezierCurveTo(0.08, 0.32, 0.32, 0.28, 0.32, 0.1);
+    s.bezierCurveTo(0.32, -0.05, 0.05, -0.2, 0, -0.28);
+    return new THREE.ExtrudeGeometry(s, { depth: 0.08, bevelEnabled: true, bevelSize: 0.03, bevelThickness: 0.03, bevelSegments: 4 });
+  }
+  function starGeo() {
+    const s = new THREE.Shape();
+    for (let i = 0; i < 10; i++) {
+      const r = i % 2 ? 0.13 : 0.3, a = (i / 10) * Math.PI * 2 + Math.PI / 2;
+      i ? s.lineTo(Math.cos(a) * r, Math.sin(a) * r) : s.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+    }
+    return new THREE.ExtrudeGeometry(s, { depth: 0.07, bevelEnabled: true, bevelSize: 0.02, bevelThickness: 0.02, bevelSegments: 2 });
+  }
+
+  const charms = [
+    [heartGeo(), enamel],
+    [starGeo(), gold],
+    [new THREE.OctahedronGeometry(0.24), glass],
+    [new THREE.TorusKnotGeometry(0.15, 0.05, 64, 10), gold],
+    [new THREE.SphereGeometry(0.2, 32, 16), silver],
+    [new THREE.BoxGeometry(0.3, 0.3, 0.3), enamel],
+    [new THREE.IcosahedronGeometry(0.22), glass],
+  ];
+  const ringGeo = new THREE.TorusGeometry(0.07, 0.022, 8, 20);
+  const dangling = [];
+  charms.forEach(([g, mat], i) => {
+    const a = (i / charms.length) * Math.PI * 2 + 0.2;
+    const pivot = new THREE.Group();
+    pivot.position.set(Math.cos(a) * R, -0.05, Math.sin(a) * R);
+    pivot.rotation.y = -a + Math.PI / 2;
+    const jump = new THREE.Mesh(ringGeo, silver); jump.position.y = -0.12; pivot.add(jump);
+    g.center();
+    const c = new THREE.Mesh(g, mat); c.position.y = -0.42; pivot.add(c);
+    pivot.userData = { phase: i * 1.3, charm: c };
+    bracelet.add(pivot); dangling.push(pivot);
+  });
+
+  // drag to spin
+  let vel = 0.004, drag = false, lastX = 0;
+  canvas.addEventListener("pointerdown", e => { drag = true; lastX = e.clientX; canvas.setPointerCapture(e.pointerId); });
+  canvas.addEventListener("pointermove", e => { if (!drag) return; vel = (e.clientX - lastX) * 0.0008; lastX = e.clientX; });
+  addEventListener("pointerup", () => { drag = false; });
+
+  function resize() {
+    const w = canvas.clientWidth, h = canvas.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.position.z = camera.aspect < 0.8 ? 7.5 / camera.aspect : 9.5;
+    camera.updateProjectionMatrix();
+  }
+  addEventListener("resize", resize); resize();
+
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const clock = new THREE.Clock();
+  (function loop() {
+    const t = clock.getElapsedTime();
+    if (!drag) vel += (0.004 - vel) * 0.02;
+    if (!still) bracelet.rotation.y += vel;
+    bracelet.position.y = 0.8 + Math.sin(t * 0.8) * 0.06;
+    dangling.forEach(p => {
+      p.rotation.z = Math.sin(t * 1.6 + p.userData.phase) * 0.25 - vel * 20;
+      p.userData.charm.rotation.y = t * 0.7 + p.userData.phase;
+    });
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>
+</body>
+</html>
